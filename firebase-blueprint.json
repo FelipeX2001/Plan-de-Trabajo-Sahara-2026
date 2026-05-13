@@ -1,0 +1,27 @@
+{
+  "entities": {
+    "task": {
+      "title": "Task",
+      "description": "A task in the work plan",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "frequency": { "type": "string" },
+        "importance": { "type": "string", "enum": ["Alta", "Media", "Baja"] },
+        "responsible": { "type": "string" },
+        "indicator": { "type": "string" },
+        "status": { "type": "string", "enum": ["Pendiente", "En progreso", "Completado"] },
+        "date": { "type": "string" },
+        "observations": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "frequency", "importance", "responsible", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/tasks/{taskId}": {
+      "schema": "task",
+      "description": "Tasks for the work plan"
+    }
+  }
+}
