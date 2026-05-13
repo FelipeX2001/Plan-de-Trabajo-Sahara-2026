@@ -119,7 +119,26 @@ export const api = {
     try {
       const q = query(collection(db, 'tasks'));
       const snapshot = await getDocs(q);
-      const tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Task));
+      const tasks = snapshot.docs.map(doc => {
+        const data = doc.data();
+        let needsUpdate = false;
+        
+        if (data.frequency && data.frequency.toLowerCase().includes('menstru')) {
+          data.frequency = 'Mensual';
+          needsUpdate = true;
+        }
+
+        if (data.name && data.name.toLowerCase().includes('reflectores') && data.status !== 'Completado') {
+          data.status = 'Completado';
+          needsUpdate = true;
+        }
+
+        if (needsUpdate) {
+          updateDoc(doc.ref, { frequency: data.frequency, status: data.status }).catch(console.error);
+        }
+
+        return { id: doc.id, ...data } as Task;
+      });
       
       if (tasks.length === 0) {
         // Seed initial tasks if db is empty

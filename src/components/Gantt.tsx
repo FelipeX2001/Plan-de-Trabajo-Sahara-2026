@@ -77,6 +77,12 @@ export default function Gantt({ tasks }: { tasks: Task[] }) {
                   <div className="w-2/3 flex py-1">
                     {MONTHS.map((_, i) => {
                       const isActive = activeMonths.includes(i);
+                      // Consider executed if overall task done, or if it's Monthly and month is up to May (index 4)
+                      let isMonthDone = isDone;
+                      if (!isDone && task.frequency.toLowerCase().includes('mensual') && i <= 4) {
+                        isMonthDone = true;
+                      }
+
                       return (
                         <div key={i} className="flex-1 px-[2px] flex items-center justify-center border-r border-slate-50 last:border-0 relative">
                           {isActive && (
@@ -85,10 +91,10 @@ export default function Gantt({ tasks }: { tasks: Task[] }) {
                               className={cn(
                                 "w-full h-4 rounded-sm flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity absolute inset-y-1 mx-[1px]", 
                                 colorClass,
-                                isDone && "bg-[var(--color-accent-teal-200)]"
+                                isMonthDone && "bg-[var(--color-accent-teal-200)]"
                               )}
                             >
-                              {isDone && <Check className="h-3 w-3 text-white" />}
+                              {isMonthDone && <Check className="h-3 w-3 text-white" />}
                             </div>
                           )}
                         </div>
