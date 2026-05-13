@@ -123,7 +123,7 @@ export default function PublicDashboard() {
         </div>
 
         {/* CONTENT GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow items-start lg:overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow items-stretch lg:overflow-hidden">
           
           <div className="lg:col-span-8 bg-white rounded-lg shadow-sm border border-slate-200 flex flex-col lg:overflow-hidden h-[500px] lg:h-full">
             <div className="w-full h-full flex flex-col overflow-hidden">

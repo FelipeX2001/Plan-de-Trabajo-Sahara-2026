@@ -1,9 +1,11 @@
 import { useState, FormEvent } from 'react';
 import { api } from '../lib/api';
-import { UserCircle } from 'lucide-react';
+import { Lock, User } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -12,7 +14,7 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
     setError('');
     setLoading(true);
     try {
-      const data = await api.login();
+      const data = await api.login(email, password);
       onLogin({ user: data.user });
     } catch (err: any) {
       setError(err.message || 'Error de autenticación');
@@ -39,6 +41,40 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
             </div>
           )}
 
+          <div>
+            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-500">Correo Electrónico</label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <User className="h-4 w-4 text-slate-400" />
+              </div>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="block w-full rounded-md border border-slate-200 bg-slate-50 p-2.5 pl-9 text-slate-800 focus:border-[var(--color-accent-teal-200)] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[var(--color-accent-teal-200)] transition-colors text-sm"
+                placeholder="ejemplo@correo.com"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-500">Contraseña</label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <Lock className="h-4 w-4 text-slate-400" />
+              </div>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="block w-full rounded-md border border-slate-200 bg-slate-50 p-2.5 pl-9 text-slate-800 focus:border-[var(--color-accent-teal-200)] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[var(--color-accent-teal-200)] transition-colors text-sm"
+                placeholder="••••••••"
+                required
+              />
+            </div>
+          </div>
+
           <button
             type="submit"
             disabled={loading}
@@ -47,8 +83,7 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
               loading && "opacity-70 cursor-not-allowed"
             )}
           >
-            <UserCircle className="w-4 h-4" />
-            {loading ? 'Ingresando...' : 'Iniciar Sesión con Google'}
+            {loading ? 'Ingresando...' : 'Iniciar Sesión'}
           </button>
         </form>
       </div>

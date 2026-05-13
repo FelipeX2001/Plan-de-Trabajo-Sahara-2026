@@ -1,6 +1,6 @@
 import { collection, doc, getDocs, setDoc, updateDoc, deleteDoc, query } from 'firebase/firestore';
 import { db, auth } from './firebase';
-import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
 export type Task = {
   id: string;
@@ -92,10 +92,25 @@ export const api = {
       });
     });
   },
-  login: async () => {
-    const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    return { user: result.user.uid };
+  login: async (email?: string, password?: string) => {
+    if (email !== 'sahara.marcela@gmail.com' || password !== 'Sahara$2026$') {
+      throw new Error('Credenciales incorrectas');
+    }
+    
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      return { user: result.user.uid };
+    } catch (e: any) {
+      if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential' || e.message.includes('invalid-credential') || e.message.includes('user-not-found')) {
+        try {
+          const result = await createUserWithEmailAndPassword(auth, email, password);
+          return { user: result.user.uid };
+        } catch (createErr: any) {
+          throw new Error('Debe habilitar "Correo electrónico/contraseña" en Firebase Authentication para usar este inicio de sesión.');
+        }
+      }
+      throw new Error('Error al iniciar sesión: Asegúrate de tener habilitado "Correo electrónico/contraseña" en Firebase Authentication.');
+    }
   },
   logout: async () => {
     await signOut(auth);
