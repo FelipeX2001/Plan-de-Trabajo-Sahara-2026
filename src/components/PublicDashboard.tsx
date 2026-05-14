@@ -70,7 +70,7 @@ export default function PublicDashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 w-full max-w-full mx-auto p-4 md:p-6 flex flex-col gap-6 overflow-auto lg:overflow-hidden">
+      <main className="flex-1 w-full max-w-full mx-auto p-4 md:p-6 flex flex-col gap-6 min-h-0 overflow-auto lg:overflow-hidden">
         <KPIs tasks={tasks} />
 
         {/* Filters */}
@@ -123,18 +123,18 @@ export default function PublicDashboard() {
         </div>
 
         {/* CONTENT GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow items-stretch lg:overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0 lg:overflow-hidden">
           
-          <div className="lg:col-span-8 bg-white rounded-lg shadow-sm border border-slate-200 flex flex-col lg:overflow-hidden h-[500px] lg:h-full">
-            <div className="w-full h-full flex flex-col overflow-hidden">
-              <div className="flex-grow overflow-auto relative pointer-events-none opacity-90">
+          <div className="lg:col-span-8 bg-white rounded-lg shadow-sm border border-slate-200 flex flex-col h-[500px] lg:h-full lg:overflow-hidden min-h-0">
+            <div className="w-full h-full flex flex-col min-h-0">
+              <div className="flex-1 overflow-auto bg-white relative">
                 {/* We will reuse TaskTable but disable actions via CSS or make a modified version, wait let's just make it simpler by adding readOnly prop to TaskTable */}
                 <TaskTable tasks={filteredTasks} onUpdateTask={() => {}} readOnly={true} />
               </div>
             </div>
           </div>
 
-          <div className="lg:col-span-4 flex flex-col gap-4 overflow-y-auto pr-2 pb-2 h-full">
+          <div className="lg:col-span-4 flex flex-col gap-4 overflow-y-auto pr-2 pb-2 h-full min-h-0">
             <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-4 flex flex-col relative shrink-0">
               <Gantt tasks={filteredTasks} />
             </div>

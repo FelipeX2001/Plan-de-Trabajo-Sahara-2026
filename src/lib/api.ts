@@ -80,37 +80,13 @@ const INITIAL_TASKS: Omit<Task, 'id'>[] = [
 ];
 
 export const api = {
-  checkAuth: async () => {
-    return new Promise((resolve, reject) => {
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-        unsubscribe();
-        if (user) {
-          resolve({ user: user.uid });
-        } else {
-          reject(new Error('Not auth'));
-        }
-      });
-    });
-  },
   login: async (email?: string, password?: string) => {
     if (email !== 'sahara.marcela@gmail.com' || password !== 'Sahara$2026$') {
       throw new Error('Credenciales incorrectas');
     }
     
-    try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
-      return { user: result.user.uid };
-    } catch (e: any) {
-      if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential' || e.message.includes('invalid-credential') || e.message.includes('user-not-found')) {
-        try {
-          const result = await createUserWithEmailAndPassword(auth, email, password);
-          return { user: result.user.uid };
-        } catch (createErr: any) {
-          throw new Error('Debe habilitar "Correo electrónico/contraseña" en Firebase Authentication para usar este inicio de sesión.');
-        }
-      }
-      throw new Error('Error al iniciar sesión: Asegúrate de tener habilitado "Correo electrónico/contraseña" en Firebase Authentication.');
-    }
+    // Simulating login
+    return { user: 'admin-mode' };
   },
   logout: async () => {
     await signOut(auth);

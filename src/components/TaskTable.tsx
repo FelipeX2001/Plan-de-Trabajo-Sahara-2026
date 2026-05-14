@@ -35,8 +35,8 @@ export default function TaskTable({ tasks, onUpdateTask, readOnly = false }: { t
   };
 
   return (
-    <div className="w-full h-full flex flex-col overflow-hidden">
-      <div className="flex-grow overflow-auto relative">
+    <div className="w-full h-full flex flex-col min-h-0">
+      <div className="flex-1 overflow-auto bg-white relative">
         <table className="w-full text-left text-xs border-collapse">
         <thead className="bg-slate-50 sticky top-0 border-b border-slate-200">
           <tr>
