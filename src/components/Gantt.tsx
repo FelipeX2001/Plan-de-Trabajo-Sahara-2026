@@ -90,8 +90,7 @@ export default function Gantt({ tasks }: { tasks: Task[] }) {
                               title={`${task.name} - ${MONTHS[i]}`}
                               className={cn(
                                 "w-full h-4 rounded-sm flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity absolute inset-y-1 mx-[1px]", 
-                                colorClass,
-                                isMonthDone && "bg-[var(--color-accent-teal-200)]"
+                                isMonthDone ? "bg-[var(--color-accent-teal-200)]" : colorClass
                               )}
                             >
                               {isMonthDone && <Check className="h-3 w-3 text-white" />}
